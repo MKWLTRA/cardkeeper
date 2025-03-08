@@ -98,7 +98,7 @@
             canvas.height = window.innerWidth < 500 ? 200 : 300;
 
             let isMobile = window.innerWidth < 500;
-            let initialSpeed = isMobile ? 0.75 : 1.5;
+            let initialSpeed = isMobile ? 0.1 : 1.5;
             let ball = { x: canvas.width / 2, y: canvas.height / 2, dx: initialSpeed, dy: initialSpeed, radius: 5, speedIncrease: 0.05 };
             let paddleWidth = 60, paddleHeight = 10;
             let paddle = { x: (canvas.width - paddleWidth) / 2, y: canvas.height - 20, speed: 5 };
