@@ -5,12 +5,113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CardKeeper</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        #pongCanvas {
+            display: none;
+            background: black;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid white;
+        }
+        #hypnoticCanvas {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            background: black;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to CardKeeper</h1>
         <p>Keep your credit cards active with a simple yearly subscription.</p>
-        <a href="#" class="cta-button">Get Started</a>
+        <a href="#" class="cta-button" onclick="fakeContact()">Contact Us</a>
     </div>
+    <canvas id="pongCanvas" width="400" height="300"></canvas>
+    <canvas id="hypnoticCanvas"></canvas>
+    <script>
+        function fakeContact() {
+            if (confirm("Sorry, but Morgan is sleeping right now. Want to play Pong instead?")) {
+                startPong();
+            }
+        }
+
+        function startPong() {
+            let canvas = document.getElementById("pongCanvas");
+            let ctx = canvas.getContext("2d");
+            canvas.style.display = "block";
+
+            let ball = { x: 200, y: 150, dx: 2, dy: 2, radius: 5 };
+            let paddleWidth = 60, paddleHeight = 10;
+            let paddle = { x: 170, y: 280, speed: 5 };
+            let keys = {};
+
+            document.addEventListener("keydown", (e) => keys[e.key] = true);
+            document.addEventListener("keyup", (e) => keys[e.key] = false);
+
+            function gameLoop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillRect(paddle.x, paddle.y, paddleWidth, paddleHeight);
+
+                if (keys["ArrowLeft"] && paddle.x > 0) paddle.x -= paddle.speed;
+                if (keys["ArrowRight"] && paddle.x < canvas.width - paddleWidth) paddle.x += paddle.speed;
+
+                ball.x += ball.dx;
+                ball.y += ball.dy;
+                if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) ball.dx *= -1;
+                if (ball.y - ball.radius < 0) ball.dy *= -1;
+                if (
+                    ball.y + ball.radius > paddle.y &&
+                    ball.x > paddle.x && ball.x < paddle.x + paddleWidth
+                ) {
+                    ball.dy *= -1;
+                }
+                if (ball.y + ball.radius > canvas.height) {
+                    triggerHypnoticEffect();
+                    alert("MKWLTRA WINS");
+                    canvas.style.display = "none";
+                    return;
+                }
+                requestAnimationFrame(gameLoop);
+            }
+            gameLoop();
+        }
+
+        function triggerHypnoticEffect() {
+            let hypnoCanvas = document.getElementById("hypnoticCanvas");
+            let ctx = hypnoCanvas.getContext("2d");
+            hypnoCanvas.style.display = "block";
+            hypnoCanvas.width = window.innerWidth;
+            hypnoCanvas.height = window.innerHeight;
+            
+            let angle = 0;
+            function drawFractalSpiral() {
+                ctx.clearRect(0, 0, hypnoCanvas.width, hypnoCanvas.height);
+                let centerX = hypnoCanvas.width / 2;
+                let centerY = hypnoCanvas.height / 2;
+                let radius = Math.min(hypnoCanvas.width, hypnoCanvas.height) / 10;
+                ctx.lineWidth = 2;
+                for (let i = 0; i < 50; i++) {  // Reduce iterations for performance on mobile
+                    ctx.strokeStyle = `hsl(${(angle + i * 10) % 360}, 100%, 50%)`;
+                    ctx.beginPath();
+                    ctx.arc(centerX + Math.cos(i * 0.3) * radius * i, centerY + Math.sin(i * 0.3) * radius * i, radius / 2, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+                angle += 10;
+                requestAnimationFrame(drawFractalSpiral);
+            }
+            drawFractalSpiral();
+        }
+    </script>
 </body>
 </html>
