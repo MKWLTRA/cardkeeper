@@ -18,6 +18,22 @@
         #about h2 {
             margin-bottom: 15px;
         }
+        #contact {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .contact-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .contact-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -31,5 +47,23 @@
         <h2>About CardKeeper</h2>
         <p>At CardKeeper, our mission is to help individuals build and maintain strong credit by ensuring their credit cards remain active. Inactive cards can negatively impact your credit score, while a higher available credit limit can improve it. Our service helps manage your cards, preventing them from being deactivated due to inactivity. Beyond card management, we are committed to educating users on financial literacy, empowering them to make informed credit decisions that contribute to long-term financial success.</p>
     </section>
+    
+    <section id="contact">
+        <h2>Contact Us</h2>
+        <button class="contact-button" onclick="fakeContact()">Contact Us</button>
+    </section>
+    
+    <script>
+        function fakeContact() {
+            const messages = [
+                "MK is sleeping right now, go away and try again later!",
+                "MK is sleeping right now, go away and try again later!",
+                "MK is sleeping right now, go away and try again later!",
+                "MK is sleeping right now, go away and try again later!",
+                "MK IS NOT ACCEPTING GUESTS RIGHT NOW, GO AWAY!"
+            ];
+            alert(messages[Math.floor(Math.random() * messages.length)]);
+        }
+    </script>
 </body>
 </html>
