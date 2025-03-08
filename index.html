@@ -99,15 +99,15 @@
                 ctx.clearRect(0, 0, hypnoCanvas.width, hypnoCanvas.height);
                 let centerX = hypnoCanvas.width / 2;
                 let centerY = hypnoCanvas.height / 2;
-                let radius = Math.min(hypnoCanvas.width, hypnoCanvas.height) / 10;
+                let radius = 10;
                 ctx.lineWidth = 2;
-                for (let i = 0; i < 50; i++) {  // Reduce iterations for performance on mobile
-                    ctx.strokeStyle = `hsl(${(angle + i * 10) % 360}, 100%, 50%)`;
+                for (let i = 0; i < 100; i++) {
+                    ctx.strokeStyle = `hsl(${(angle + i * 5) % 360}, 100%, 50%)`;
                     ctx.beginPath();
-                    ctx.arc(centerX + Math.cos(i * 0.3) * radius * i, centerY + Math.sin(i * 0.3) * radius * i, radius / 2, 0, Math.PI * 2);
+                    ctx.arc(centerX + Math.cos(i * 0.2) * radius * i, centerY + Math.sin(i * 0.2) * radius * i, radius, 0, Math.PI * 2);
                     ctx.stroke();
                 }
-                angle += 10;
+                angle += 5;
                 requestAnimationFrame(drawFractalSpiral);
             }
             drawFractalSpiral();
