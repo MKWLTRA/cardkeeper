@@ -8,11 +8,18 @@
     <style>
         @keyframes flash {
             0% { background-color: red; }
+            16% { background-color: orange; }
+            32% { background-color: yellow; }
+            48% { background-color: green; }
+            64% { background-color: blue; }
+            80% { background-color: indigo; }
+            100% { background-color: violet; }
+        }
             50% { background-color: yellow; }
             100% { background-color: red; }
         }
         .flashing-button {
-            animation: flash 0.5s infinite alternate;
+            animation: flash 2s infinite alternate;
         }
         .contact-button {
             display: inline-block;
