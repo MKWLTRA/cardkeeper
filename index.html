@@ -5,164 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CardKeeper</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        @keyframes flash {
-            0% { background-color: red; }
-            16% { background-color: orange; }
-            32% { background-color: yellow; }
-            48% { background-color: green; }
-            64% { background-color: blue; }
-            80% { background-color: indigo; }
-            100% { background-color: violet; }
-        }
-            16% { background-color: orange; }
-            32% { background-color: yellow; }
-            48% { background-color: green; }
-            64% { background-color: blue; }
-            80% { background-color: indigo; }
-            100% { background-color: violet; }
-        }
-            
-        }
-        .flashing-button {
-            animation: flash 4s infinite alternate;
-        }
-        .contact-button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: red;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .about-section {
-            margin-top: 50px;
-            padding: 20px;
-            background-color: #f4f4f4;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .about-section h2 {
-            color: #333;
-        }
-        .about-section p {
-            color: #555;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        #pongCanvas {
-            display: none;
-            background: black;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 2px solid white;
-        }
-        .mobile-controls {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-        }
-        .mobile-controls button {
-            font-size: 20px;
-            padding: 10px 20px;
-            margin: 5px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to CardKeeper</h1>
         <p>Keep your credit cards active with a simple yearly subscription.</p>
-        <a href="#" class="contact-button" id="contactButton" onclick="fakeContact()">Contact Us</a>
+        <a href="#" class="cta-button">Get Started</a>
     </div>
     
-    <div class="about-section">
+    <section id="about">
         <h2>About CardKeeper</h2>
         <p>At CardKeeper, our mission is to help individuals build and maintain strong credit by ensuring their credit cards remain active. Inactive cards can negatively impact your credit score, while a higher available credit limit can improve it. Our service helps manage your cards, preventing them from being deactivated due to inactivity. Beyond card management, we are committed to educating users on financial literacy, empowering them to make informed credit decisions that contribute to long-term financial success.</p>
-    </div>
-    
-    <canvas id="pongCanvas" width="400" height="300"></canvas>
-    <div class="mobile-controls" id="mobileControls">
-        <button onclick="movePaddle(-1)">⬅️</button>
-        <button onclick="movePaddle(1)">➡️</button>
-    </div>
-    <script>
-        function fakeContact() {
-            if (confirm("Sorry, but Morgan is sleeping right now. Want to play Pong instead? (Use Left/Right Arrow Keys or Tap Buttons to Move Paddle)")) {
-                startPong();
-            }
-        }
-
-        function startPong() {
-            let canvas = document.getElementById("pongCanvas");
-            let ctx = canvas.getContext("2d");
-            canvas.style.display = "block";
-            document.getElementById("contactButton").classList.remove("flashing-button");
-            document.getElementById("mobileControls").style.display = "block";
-
-            // Adjust canvas for mobile screens
-            canvas.width = window.innerWidth < 500 ? 300 : 400;
-            canvas.height = window.innerWidth < 500 ? 200 : 300;
-
-            let isMobile = window.innerWidth < 500;
-            let initialSpeed = isMobile ? 0.25 : 1.5;
-            let ball = { x: canvas.width / 2, y: canvas.height / 2, dx: initialSpeed, dy: initialSpeed, radius: 5, speedIncrease: 0.05 };
-            let paddleWidth = 60, paddleHeight = 10;
-            let paddle = { x: (canvas.width - paddleWidth) / 2, y: canvas.height - 20, speed: 5 };
-            let keys = {};
-
-            document.addEventListener("keydown", (e) => keys[e.key] = true);
-            document.addEventListener("keyup", (e) => keys[e.key] = false);
-
-            function movePaddle(direction) {
-    let canvas = document.getElementById("pongCanvas");
-    let paddleWidth = 60;
-    let paddle = { x: (canvas.width - paddleWidth) / 2, y: canvas.height - 20, speed: 5 };
-    paddle.x += direction * paddle.speed * 5;
-    if (paddle.x < 0) paddle.x = 0;
-    if (paddle.x > canvas.width - paddleWidth) paddle.x = canvas.width - paddleWidth;
-}
-
-            function gameLoop() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = "white";
-                ctx.beginPath();
-                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.fillRect(paddle.x, paddle.y, paddleWidth, paddleHeight);
-
-                if (keys["ArrowLeft"] && paddle.x > 0) paddle.x -= paddle.speed;
-                if (keys["ArrowRight"] && paddle.x < canvas.width - paddleWidth) paddle.x += paddle.speed;
-
-                ball.x += ball.dx;
-                ball.y += ball.dy;
-                if (ball.x - ball.radius < 0 || ball.x + ball.radius > canvas.width) ball.dx *= -1;
-                if (ball.y - ball.radius < 0) ball.dy *= -1;
-                if (
-                    ball.y + ball.radius > paddle.y &&
-                    ball.x > paddle.x && ball.x < paddle.x + paddleWidth
-                ) {
-                    ball.dy *= -1;
-                    ball.dx *= 1 + ball.speedIncrease;
-                    ball.dy *= 1 + ball.speedIncrease;
-                }
-                if (ball.y + ball.radius > canvas.height) {
-                    alert("MKWLTRA WINS");
-                    canvas.style.display = "none";
-                    document.getElementById("contactButton").classList.add("flashing-button");
-                    document.getElementById("mobileControls").style.display = "none";
-                    return;
-                }
-                requestAnimationFrame(gameLoop);
-            }
-            gameLoop();
-        }
-    </script>
+    </section>
 </body>
 </html>
