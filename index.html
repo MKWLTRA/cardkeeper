@@ -6,6 +6,39 @@
     <title>CardKeeper</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        @keyframes flash {
+            0% { background-color: red; }
+            50% { background-color: yellow; }
+            100% { background-color: red; }
+        }
+        .flashing-button {
+            animation: flash 0.5s infinite alternate;
+        }
+        .contact-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .about-section {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .about-section h2 {
+            color: #333;
+        }
+        .about-section p {
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+        }
         #pongCanvas {
             display: none;
             background: black;
@@ -15,22 +48,24 @@
             transform: translate(-50%, -50%);
             border: 2px solid white;
         }
-        @keyframes psychedelic {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to CardKeeper</h1>
         <p>Keep your credit cards active with a simple yearly subscription.</p>
-        <a href="#" class="cta-button" onclick="fakeContact()">Contact Us</a>
+        <a href="#" class="contact-button" id="contactButton" onclick="fakeContact()">Contact Us</a>
     </div>
+    
+    <div class="about-section">
+        <h2>About CardKeeper</h2>
+        <p>At CardKeeper, our mission is to help individuals build and maintain strong credit by ensuring their credit cards remain active. Inactive cards can negatively impact your credit score, while a higher available credit limit can improve it. Our service helps manage your cards, preventing them from being deactivated due to inactivity. Beyond card management, we are committed to educating users on financial literacy, empowering them to make informed credit decisions that contribute to long-term financial success.</p>
+    </div>
+    
     <canvas id="pongCanvas" width="400" height="300"></canvas>
     <script>
         function fakeContact() {
-            if (confirm("Sorry, but Morgan is sleeping right now. Want to play Pong instead?")) {
+            if (confirm("Sorry, but Morgan is sleeping right now. Want to play Pong instead? (Use Left/Right Arrow Keys to Move Paddle)")) {
                 startPong();
             }
         }
@@ -39,10 +74,15 @@
             let canvas = document.getElementById("pongCanvas");
             let ctx = canvas.getContext("2d");
             canvas.style.display = "block";
+            document.getElementById("contactButton").classList.remove("flashing-button");
 
-            let ball = { x: 200, y: 150, dx: 2, dy: 2, radius: 5 };
+            // Adjust canvas for mobile screens
+            canvas.width = window.innerWidth < 500 ? 300 : 400;
+            canvas.height = window.innerWidth < 500 ? 200 : 300;
+
+            let ball = { x: canvas.width / 2, y: canvas.height / 2, dx: 1.5, dy: 1.5, radius: 5, speedIncrease: 0.05 };
             let paddleWidth = 60, paddleHeight = 10;
-            let paddle = { x: 170, y: 280, speed: 5 };
+            let paddle = { x: (canvas.width - paddleWidth) / 2, y: canvas.height - 20, speed: 5 };
             let keys = {};
 
             document.addEventListener("keydown", (e) => keys[e.key] = true);
@@ -68,22 +108,19 @@
                     ball.x > paddle.x && ball.x < paddle.x + paddleWidth
                 ) {
                     ball.dy *= -1;
+                    ball.dx *= 1 + ball.speedIncrease;
+                    ball.dy *= 1 + ball.speedIncrease;
                 }
                 if (ball.y + ball.radius > canvas.height) {
-                    triggerPsychedelicEffect();
                     alert("MKWLTRA WINS");
                     canvas.style.display = "none";
+                    document.getElementById("contactButton").classList.add("flashing-button");
                     return;
                 }
                 requestAnimationFrame(gameLoop);
             }
             gameLoop();
         }
-
-        function triggerPsychedelicEffect() {
-            document.body.style.animation = "psychedelic 1s infinite alternate linear";
-        }
     </script>
 </body>
 </html>
-
