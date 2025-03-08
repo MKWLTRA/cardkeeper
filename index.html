@@ -44,13 +44,38 @@
                 text-align: center;
             }
         }
+        #pre-register-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        #pre-register-input {
+            padding: 10px;
+            width: 250px;
+            margin-right: 10px;
+        }
+        #pre-register-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #pre-register-button:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to CardKeeper</h1>
         <p>Keep your credit cards active with a simple yearly subscription.</p>
-        <a href="#" class="cta-button">Get Started</a>
+        <div id="pre-register-section">
+            <p>CardKeeper is in development. Enter your email to have early access and be notified of major developments.<br>(Don't worry, there is no functionality to send you spam. MK just wants to gauge interest.)</p>
+            <input type="email" id="pre-register-input" placeholder="Enter your email">
+            <button id="pre-register-button" onclick="storeEmail()">Pre Register</button>
+        </div>
     </div>
     
     <section id="about">
@@ -73,6 +98,23 @@
                 "MK IS NOT ACCEPTING GUESTS RIGHT NOW, GO AWAY!"
             ];
             alert(messages[Math.floor(Math.random() * messages.length)]);
+        }
+        
+        function storeEmail() {
+            let email = document.getElementById("pre-register-input").value;
+            if (email) {
+                let emails = localStorage.getItem("preRegisteredEmails");
+                let emailList = emails ? JSON.parse(emails) : [];
+                
+                let timestamp = new Date().toLocaleString();
+                emailList.push({ email: email, date: timestamp });
+                localStorage.setItem("preRegisteredEmails", JSON.stringify(emailList));
+                
+                alert("Thank you for pre-registering! Your email has been saved.");
+                document.getElementById("pre-register-input").value = "";
+            } else {
+                alert("Please enter a valid email.");
+            }
         }
     </script>
 </body>
