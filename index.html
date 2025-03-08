@@ -15,15 +15,9 @@
             transform: translate(-50%, -50%);
             border: 2px solid white;
         }
-        #hypnoticCanvas {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 9999;
-            background: black;
+        @keyframes psychedelic {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
         }
     </style>
 </head>
@@ -34,7 +28,6 @@
         <a href="#" class="cta-button" onclick="fakeContact()">Contact Us</a>
     </div>
     <canvas id="pongCanvas" width="400" height="300"></canvas>
-    <canvas id="hypnoticCanvas"></canvas>
     <script>
         function fakeContact() {
             if (confirm("Sorry, but Morgan is sleeping right now. Want to play Pong instead?")) {
@@ -77,7 +70,7 @@
                     ball.dy *= -1;
                 }
                 if (ball.y + ball.radius > canvas.height) {
-                    triggerHypnoticEffect();
+                    triggerPsychedelicEffect();
                     alert("MKWLTRA WINS");
                     canvas.style.display = "none";
                     return;
@@ -87,31 +80,10 @@
             gameLoop();
         }
 
-        function triggerHypnoticEffect() {
-            let hypnoCanvas = document.getElementById("hypnoticCanvas");
-            let ctx = hypnoCanvas.getContext("2d");
-            hypnoCanvas.style.display = "block";
-            hypnoCanvas.width = window.innerWidth;
-            hypnoCanvas.height = window.innerHeight;
-            
-            let angle = 0;
-            function drawFractalSpiral() {
-                ctx.clearRect(0, 0, hypnoCanvas.width, hypnoCanvas.height);
-                let centerX = hypnoCanvas.width / 2;
-                let centerY = hypnoCanvas.height / 2;
-                let radius = 10;
-                ctx.lineWidth = 2;
-                for (let i = 0; i < 100; i++) {
-                    ctx.strokeStyle = `hsl(${(angle + i * 5) % 360}, 100%, 50%)`;
-                    ctx.beginPath();
-                    ctx.arc(centerX + Math.cos(i * 0.2) * radius * i, centerY + Math.sin(i * 0.2) * radius * i, radius, 0, Math.PI * 2);
-                    ctx.stroke();
-                }
-                angle += 5;
-                requestAnimationFrame(drawFractalSpiral);
-            }
-            drawFractalSpiral();
+        function triggerPsychedelicEffect() {
+            document.body.style.animation = "psychedelic 1s infinite alternate linear";
         }
     </script>
 </body>
 </html>
+
