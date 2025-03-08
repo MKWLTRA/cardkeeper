@@ -108,10 +108,13 @@
             document.addEventListener("keyup", (e) => keys[e.key] = false);
 
             function movePaddle(direction) {
-                paddle.x += direction * paddle.speed * 5;
-                if (paddle.x < 0) paddle.x = 0;
-                if (paddle.x > canvas.width - paddleWidth) paddle.x = canvas.width - paddleWidth;
-            }
+    let canvas = document.getElementById("pongCanvas");
+    let paddleWidth = 60;
+    let paddle = { x: (canvas.width - paddleWidth) / 2, y: canvas.height - 20, speed: 5 };
+    paddle.x += direction * paddle.speed * 5;
+    if (paddle.x < 0) paddle.x = 0;
+    if (paddle.x > canvas.width - paddleWidth) paddle.x = canvas.width - paddleWidth;
+}
 
             function gameLoop() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
