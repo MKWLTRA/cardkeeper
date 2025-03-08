@@ -48,6 +48,18 @@
             transform: translate(-50%, -50%);
             border: 2px solid white;
         }
+        .mobile-controls {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+        .mobile-controls button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
@@ -63,9 +75,13 @@
     </div>
     
     <canvas id="pongCanvas" width="400" height="300"></canvas>
+    <div class="mobile-controls" id="mobileControls">
+        <button onclick="movePaddle(-1)">⬅️</button>
+        <button onclick="movePaddle(1)">➡️</button>
+    </div>
     <script>
         function fakeContact() {
-            if (confirm("Sorry, but Morgan is sleeping right now. Want to play Pong instead? (Use Left/Right Arrow Keys to Move Paddle)")) {
+            if (confirm("Sorry, but Morgan is sleeping right now. Want to play Pong instead? (Use Left/Right Arrow Keys or Tap Buttons to Move Paddle)")) {
                 startPong();
             }
         }
@@ -75,6 +91,7 @@
             let ctx = canvas.getContext("2d");
             canvas.style.display = "block";
             document.getElementById("contactButton").classList.remove("flashing-button");
+            document.getElementById("mobileControls").style.display = "block";
 
             // Adjust canvas for mobile screens
             canvas.width = window.innerWidth < 500 ? 300 : 400;
@@ -87,6 +104,12 @@
 
             document.addEventListener("keydown", (e) => keys[e.key] = true);
             document.addEventListener("keyup", (e) => keys[e.key] = false);
+
+            function movePaddle(direction) {
+                paddle.x += direction * paddle.speed * 5;
+                if (paddle.x < 0) paddle.x = 0;
+                if (paddle.x > canvas.width - paddleWidth) paddle.x = canvas.width - paddleWidth;
+            }
 
             function gameLoop() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -115,6 +138,7 @@
                     alert("MKWLTRA WINS");
                     canvas.style.display = "none";
                     document.getElementById("contactButton").classList.add("flashing-button");
+                    document.getElementById("mobileControls").style.display = "none";
                     return;
                 }
                 requestAnimationFrame(gameLoop);
