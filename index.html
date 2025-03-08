@@ -53,7 +53,7 @@
             width: 250px;
             margin-right: 10px;
         }
-        #pre-register-button {
+        #pre-register-button, #download-emails-button {
             padding: 10px 20px;
             font-size: 16px;
             background-color: #28a745;
@@ -61,9 +61,13 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 10px;
         }
-        #pre-register-button:hover {
+        #pre-register-button:hover, #download-emails-button:hover {
             background-color: #218838;
+        }
+        #download-emails-button {
+            display: none; /* Hidden by default */
         }
     </style>
 </head>
@@ -75,6 +79,7 @@
             <p>CardKeeper is in development. Enter your email to have early access and be notified of major developments.<br>(Don't worry, there is no functionality to send you spam. MK just wants to gauge interest.)</p>
             <input type="email" id="pre-register-input" placeholder="Enter your email">
             <button id="pre-register-button" onclick="storeEmail()">Pre Register</button>
+            <button id="download-emails-button" onclick="requestPassword()">Download Emails</button>
         </div>
     </div>
     
@@ -112,10 +117,45 @@
                 
                 alert("Thank you for pre-registering! Your email has been saved.");
                 document.getElementById("pre-register-input").value = "";
+                
+                document.getElementById("download-emails-button").style.display = "block";
             } else {
                 alert("Please enter a valid email.");
             }
         }
+        
+        function requestPassword() {
+            let password = prompt("Enter the password to download emails:");
+            if (password === "YourSecurePassword") {
+                downloadEmails();
+            } else {
+                alert("Kick rocks.");
+            }
+        }
+        
+        function downloadEmails() {
+            let emails = localStorage.getItem("preRegisteredEmails");
+            if (!emails) {
+                alert("No emails stored yet.");
+                return;
+            }
+            
+            let emailList = JSON.parse(emails);
+            let csvContent = "data:text/csv;charset=utf-8,Email,Date\n" + emailList.map(e => `${e.email},${e.date}`).join("\n");
+            let encodedUri = encodeURI(csvContent);
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "pre_registered_emails.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            if (localStorage.getItem("preRegisteredEmails")) {
+                document.getElementById("download-emails-button").style.display = "block";
+            }
+        });
     </script>
 </body>
 </html>
