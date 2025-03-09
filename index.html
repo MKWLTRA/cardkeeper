@@ -93,7 +93,69 @@
         <h2>About CardKeeper</h2>
         <p>At CardKeeper, our mission is to help individuals build and maintain strong credit by ensuring their credit cards remain active. Inactive cards can negatively impact your credit score, while a higher available credit limit can improve it. Our service helps manage your cards, preventing them from being deactivated due to inactivity. Beyond card management, we are committed to educating users on financial literacy, empowering them to make informed credit decisions that contribute to long-term financial success.</p>
     </section>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CardKeeper - Educational Resources</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            min-width: 200px;
+            padding: 10px;
+            z-index: 1;
+            text-align: left;
+        }
+        .dropdown-content a {
+            display: block;
+            padding: 8px;
+            text-decoration: none;
+            color: black;
+        }
+        .dropdown-content a:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Self Empowerment: Financial Literacy</h1>
+
+    <div class="dropdown">
+        <button onclick="toggleDropdown()">Educational Resources</button>
+        <div class="dropdown-content" id="dropdown-menu">
+            <a href="./components/resources/credit-limits.html">Credit Limits & Utilization</a>
+            <a href="./components/resources/building-credit.html">Building Credit Responsibly</a>
+            <a href="./components/resources/debt-management.html">Debt Management Strategies</a>
+            <a href="./components/resources/understanding-scores.html">Understanding Credit Scores</a>
+        </div>
+    </div>
     
+
+    <script>
+        function toggleDropdown() {
+            var menu = document.getElementById("dropdown-menu");
+            menu.style.display = (menu.style.display === "block") ? "none" : "block";
+        }
+    </script>
+
+</body>
+</html>
+
     <section id="contact">
         <h2>Contact Us</h2>
         <button class="contact-button" onclick="fakeContact()">Contact Us</button>
