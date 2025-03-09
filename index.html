@@ -25,13 +25,12 @@
         }
         .contact-button {
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 14px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            display: inline-block !important;
         }
         .contact-button:hover {
             background-color: #0056b3;
@@ -48,26 +47,32 @@
             text-align: center;
             margin-top: 30px;
         }
-        #pre-register-input {
+        #pre-register-input, #card-count-input, #concerns-input {
             padding: 10px;
-            width: 250px;
-            margin-right: 10px;
+            width: 300px;
+            margin: 10px auto;
+            font-size: 10px;
+            display: block;
+            text-align: center;
         }
-        #pre-register-button, #download-emails-button {
+        #pre-register-button {
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 14px;
             background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
         }
-        #pre-register-button:hover, #download-emails-button:hover {
+        #pre-register-button:hover {
             background-color: #218838;
         }
-        #download-emails-button {
-            display: none; /* Hidden by default */
+            #card-count-input, #concerns-input {
+            padding: 10px;
+            width: 300px;
+            margin-right: 10px;
+            display: block;
+            margin: 10px auto;
         }
     </style>
 </head>
@@ -78,8 +83,9 @@
         <div id="pre-register-section">
             <p>CardKeeper is in development. Enter your email to have early access and be notified of major developments.<br>(Don't worry, there is no functionality to send you spam. MK just wants to gauge interest.)</p>
             <input type="email" id="pre-register-input" placeholder="Enter your email">
+            <input type="number" id="card-count-input" placeholder="How many cards would you be interested in managing?">
+            <input type="text" id="concerns-input" placeholder="Any concerns before committing? (Optional)">
             <button id="pre-register-button" onclick="storeEmail()">Pre Register</button>
-            <button id="download-emails-button" onclick="requestPassword()">Download Emails</button>
         </div>
     </div>
     
@@ -107,55 +113,22 @@
         
         function storeEmail() {
             let email = document.getElementById("pre-register-input").value;
+            let cardCount = document.getElementById("card-count-input").value;
+            let concerns = document.getElementById("concerns-input").value;
             if (email) {
                 let emails = localStorage.getItem("preRegisteredEmails");
                 let emailList = emails ? JSON.parse(emails) : [];
                 
                 let timestamp = new Date().toLocaleString();
-                emailList.push({ email: email, date: timestamp });
+                emailList.push({ email: email, cardCount: cardCount, concerns: concerns || 'None', date: timestamp });
                 localStorage.setItem("preRegisteredEmails", JSON.stringify(emailList));
                 
                 alert("Thank you for pre-registering! Your email has been saved.");
                 document.getElementById("pre-register-input").value = "";
-                
-                document.getElementById("download-emails-button").style.display = "block";
             } else {
                 alert("Please enter a valid email.");
             }
         }
-        
-        function requestPassword() {
-            let password = prompt("Enter the password to download emails:");
-            if (password === "42069") {
-                downloadEmails();
-            } else {
-                alert("Kick rocks.");
-            }
-        }
-        
-        function downloadEmails() {
-            let emails = localStorage.getItem("preRegisteredEmails");
-            if (!emails) {
-                alert("No emails stored yet.");
-                return;
-            }
-            
-            let emailList = JSON.parse(emails);
-            let csvContent = "data:text/csv;charset=utf-8,Email,Date\n" + emailList.map(e => `${e.email},${e.date}`).join("\n");
-            let encodedUri = encodeURI(csvContent);
-            let link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "pre_registered_emails.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-        
-        document.addEventListener("DOMContentLoaded", function() {
-            if (localStorage.getItem("preRegisteredEmails")) {
-                document.getElementById("download-emails-button").style.display = "block";
-            }
-        });
     </script>
 </body>
 </html>
