@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building Credit Responsibly</title>
+    <style>
+        /* Global Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #007BFF;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: left;
+        }
+        .dropdown {
+            margin: 20px 0;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .content-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Building Credit Responsibly</h1>
+        <p>Building credit responsibly is key to financial success. Whether you are starting fresh or already have some credit, here are the best ways to improve and maintain a strong credit score.</p>
+
+        <!-- Dropdown for selecting credit status -->
+        <div class="dropdown">
+            <label for="credit-status">Select your situation:</label>
+            <select id="credit-status" onchange="updateContent()">
+                <option value="no-credit">I am starting with no credit</option>
+                <option value="some-credit">I am starting with some credit</option>
+            </select>
+        </div>
+
+        <!-- Content that changes based on user selection -->
+        <div id="credit-content" class="content-box"></div>
+
+        <a href="../../index.html" class="back-button">Back to Home</a>
+    </div>
+
+    <script>
+        function updateContent() {
+            let contentBox = document.getElementById("credit-content");
+            let selectedValue = document.getElementById("credit-status").value;
+
+            if (selectedValue === "no-credit") {
+                contentBox.innerHTML = `
+                    <h2>Starting with No Credit</h2>
+                    <p>If you have no credit history, the key is to establish a record of responsible borrowing. Here’s how:</p>
+                    <ul>
+                        <li><strong>Get a Secured Credit Card:</strong> A secured card requires a deposit but functions like a regular credit card. Use it responsibly to build history.</li>
+                        <li><strong>Become an Authorized User:</strong> Ask a family member with good credit to add you to their credit card as an authorized user.</li>
+                        <li><strong>Apply for a Credit-Builder Loan:</strong> These small loans help establish credit when paid back on time.</li>
+                        <li><strong>Use Rent & Utility Payments:</strong> Some services report rent and utility payments to credit bureaus.</li>
+                        <li><strong>Make On-Time Payments:</strong> Even small purchases paid on time help build positive credit history.</li>
+                    </ul>
+                `;
+            } else if (selectedValue === "some-credit") {
+                contentBox.innerHTML = `
+                    <h2>Starting with Some Credit</h2>
+                    <p>If you already have some credit history, your goal is to strengthen and improve your credit score. Follow these steps:</p>
+                    <ul>
+                        <li><strong>Keep Credit Utilization Low:</strong> Try to use less than 30% of your available credit limit.</li>
+                        <li><strong>Pay Bills on Time:</strong> Payment history is the biggest factor in your credit score.</li>
+                        <li><strong>Increase Your Credit Limit:</strong> Requesting a credit limit increase (without increasing spending) can lower utilization.</li>
+                        <li><strong>Avoid Opening Too Many Accounts at Once:</strong> Each credit inquiry can temporarily lower your score.</li>
+                        <li><strong>Maintain Old Accounts:</strong> Keeping older accounts open increases the length of your credit history.</li>
+                        <li><strong>Monitor Your Credit Report:</strong> Check your credit report regularly for errors and dispute any inaccuracies.</li>
+                    </ul>
+                `;
+            }
+        }
+
+        // Initialize default content
+        updateContent();
+    </script>
+
+</body>
+</html>
